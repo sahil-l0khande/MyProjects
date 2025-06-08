@@ -1,0 +1,105 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\02-Colored\\03-Two2DShapes\\OGL.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:02-Colored\\03-Two2DShapes\\OGL.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\02-Colored\\02-Rectangle\\OGL.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:02-Colored\\02-Rectangle\\OGL.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\02-Colored\\01-Triangle\\OGL.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:02-Colored\\01-Triangle\\OGL.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\01-BW\\02-Rectangle\\OGL.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:01-BW\\02-Rectangle\\OGL.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\01-BW\\01-Triangle\\OGL.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:01-BW\\01-Triangle\\OGL.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "OGL.c",
+              "DocumentMoniker": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\02-Colored\\03-Two2DShapes\\OGL.c",
+              "RelativeDocumentMoniker": "02-Colored\\03-Two2DShapes\\OGL.c",
+              "ToolTip": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\02-Colored\\03-Two2DShapes\\OGL.c",
+              "RelativeToolTip": "02-Colored\\03-Two2DShapes\\OGL.c",
+              "ViewState": "AQIAAJUBAAAAWmZmZmYkwIQBAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-03-11T07:48:49.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "OGL.c",
+              "DocumentMoniker": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\02-Colored\\02-Rectangle\\OGL.c",
+              "RelativeDocumentMoniker": "02-Colored\\02-Rectangle\\OGL.c",
+              "ToolTip": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\02-Colored\\02-Rectangle\\OGL.c",
+              "RelativeToolTip": "02-Colored\\02-Rectangle\\OGL.c",
+              "ViewState": "AQIAAHgBAAAAKDMzMzMLwHoBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-03-11T07:48:27.841Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OGL.c",
+              "DocumentMoniker": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\02-Colored\\01-Triangle\\OGL.c",
+              "RelativeDocumentMoniker": "02-Colored\\01-Triangle\\OGL.c",
+              "ToolTip": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\02-Colored\\01-Triangle\\OGL.c",
+              "RelativeToolTip": "02-Colored\\01-Triangle\\OGL.c",
+              "ViewState": "AQIAAG4BAAAAbmZmZmYkwIIBAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-03-11T07:48:05.532Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "OGL.c",
+              "DocumentMoniker": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\01-BW\\02-Rectangle\\OGL.c",
+              "RelativeDocumentMoniker": "01-BW\\02-Rectangle\\OGL.c",
+              "ToolTip": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\01-BW\\02-Rectangle\\OGL.c",
+              "RelativeToolTip": "01-BW\\02-Rectangle\\OGL.c",
+              "ViewState": "AQIAAHMBAAAALDMzMzMbwIMBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-03-11T07:47:36.287Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "OGL.c",
+              "DocumentMoniker": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\01-BW\\01-Triangle\\OGL.c",
+              "RelativeDocumentMoniker": "01-BW\\01-Triangle\\OGL.c",
+              "ToolTip": "C:\\MyProjects\\Windows\\02-FFP\\02-OpenGL\\05-2DRotation\\01-BW\\01-Triangle\\OGL.c",
+              "RelativeToolTip": "01-BW\\01-Triangle\\OGL.c",
+              "ViewState": "AQIAAG4BAAAAamZmZmYkwIUBAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-03-11T07:47:04.117Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
