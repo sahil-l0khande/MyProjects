@@ -29,11 +29,15 @@ Bool bActiveWindow = False;
 // OpenGl related globalvariable
 GLXContext glxContext = NULL;
 
+// Variables related to file I/O
+char gszLogFileName[] = "Log.txt";
+FILE* gpFile = NULL;
 
 int main(void)
 {
     // Function declarations
     void toggleFullScreen(void);
+    void MessageBox(const char* );
     int initialize(void);
     void resize(int, int);
     void display(void);
@@ -65,10 +69,20 @@ int main(void)
 
 
     // code
+    // Create log file
+	gpFile = fopen(gszLogFileName, "w");
+	if (gpFile == NULL) {
+		MessageBox("Log file creation failed");
+		exit(0);  // -1 nahi kel karan hi system madhun aleli error ahe , apli nahi
+	}
+	else {
+		fprintf(gpFile, "Program started successfully\n");
+	}
+
     // Open connection with x server
     gpDisplay = XOpenDisplay(NULL);     // client is opening connection with xserver, NULL for jo asel number display la to ghe
     if (gpDisplay == NULL) {
-        printf("XopenDisplay() failed\n");
+        fprintf(gpFile,"XopenDisplay() failed\n");
         uninitialize();
         exit(EXIT_FAILURE);
     }
@@ -82,7 +96,7 @@ int main(void)
     // Get visual info
     visualInfo = glXChooseVisual(gpDisplay, defaultScreen, framebufferAttributes);
     if (visualInfo == NULL) {
-        printf("XMatchVisualInfo() failed\n");
+        fprintf(gpFile,"XMatchVisualInfo() failed\n");
         uninitialize();
         exit(EXIT_FAILURE);
     }
@@ -117,7 +131,7 @@ int main(void)
     );
 
     if (!window) {
-        printf("XCreateWindow() failed\n");
+        fprintf(gpFile,"XCreateWindow() failed\n");
         uninitialize();
         exit(EXIT_FAILURE);
 
@@ -249,18 +263,60 @@ void toggleFullScreen(void)
 
 int initialize(void)
 {
+    // Function Declarations
+    void printGLInfo(void);
+
     // Code 
     glxContext = glXCreateContext(gpDisplay, visualInfo, NULL, True);
     if (glxContext == NULL) {
-        printf("glxCratecontext() failed\n");
+        fprintf(gpFile,"glxCratecontext() failed\n");
         return -1;
     }
 
     glXMakeCurrent(gpDisplay, window, glxContext);
 
+    printGLInfo();
     // Clear color
     glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
     return 0;
+}
+
+void printGLInfo(void)
+{
+	// code
+    FILE* fp = NULL;
+    char buf[128] = {0};
+    char output[1024] = {0};
+
+	// Print openGL info
+	fprintf(gpFile, "OPENGL INFORMATION\n");
+	fprintf(gpFile, "******************\n");
+
+    fp = popen("glxinfo | grep OpenGL", "r");
+    if (fp == NULL) {
+        fprintf(gpFile, "glxinfo command failed\n");
+        pclose(fp);
+        return;
+    }
+    
+
+    while (fgets(buf, sizeof(buf), fp) != NULL) {
+        strcat(output, buf);
+    }
+
+    fprintf(gpFile, "%s", output);
+
+	// fprintf(gpFile, "openGL vendor : %s \n", glGetString(GL_VENDOR));
+	// fprintf(gpFile, "openGL renderer : %s \n", glGetString(GL_RENDERER));
+	// fprintf(gpFile, "openGL version : %s \n", glGetString(GL_VERSION));
+	fprintf(gpFile, "******************\n");
+    pclose(fp);
+}
+
+void MessageBox(const char *message) {
+    char command[512];
+    snprintf(command, sizeof(command), "xmessage -center \"%s\"", message);
+    system(command);
 }
 
 void resize(int width, int height)
@@ -316,4 +372,12 @@ void uninitialize(void)
         XCloseDisplay(gpDisplay);
         gpDisplay = NULL;
     }
+    
+    if (gpFile) {
+		fprintf(gpFile, "Program terminated successfully\n");
+		fclose(gpFile);
+		gpFile = NULL;
+	}
+
 }
+
