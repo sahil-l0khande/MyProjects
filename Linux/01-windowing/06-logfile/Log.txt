@@ -1,0 +1,20 @@
+Program started successfully
+OPENGL INFORMATION
+******************
+OpenGL vendor string: Intel
+OpenGL renderer string: Mesa Intel(R) HD Graphics 620 (KBL GT2)
+OpenGL core profile version string: 4.6 (Core Profile) Mesa 21.2.6
+OpenGL core profile shading language version string: 4.60
+OpenGL core profile context flags: (none)
+OpenGL core profile profile mask: core profile
+OpenGL core profile extensions:
+OpenGL version string: 4.6 (Compatibility Profile) Mesa 21.2.6
+OpenGL shading language version string: 4.60
+OpenGL context flags: (none)
+OpenGL profile mask: compatibility profile
+OpenGL extensions:
+OpenGL ES profile version string: OpenGL ES 3.2 Mesa 21.2.6
+OpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20
+OpenGL ES profile extensions:
+******************
+Program terminated successfully
