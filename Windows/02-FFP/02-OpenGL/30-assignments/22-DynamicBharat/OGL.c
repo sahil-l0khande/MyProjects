@@ -53,6 +53,48 @@ HGLRC ghrc = NULL;	// global handle to Graphics library rendering context
 
 GLUquadric* quadric = NULL;
 
+/* Text related variables */
+float posH_Y = 1.5f;   // Start above screen
+//float targetY_H = 0.0f;
+float posB_X = -2.0f;   // Start far left
+float targetX_B = -1.5f;  // Final X position (adjust according to your layout)
+float posA_Z = -10.0f;     // Start far back
+float targetZ_A = 0.0f;    // Final Z position
+float posT_X = 2.0f;       // Start from the right (off-screen)
+float targetX_T = 1.4f;    // Final position where 'T' should settle
+float posR_Y = -2.0f;      // Start from below
+//float targetY_R = -0.4f;   // Final resting Y position
+
+float speed = 0.00050f;   // Falling speed
+float speed_A = 0.01f;      // Speed of approach
+
+float baseY = -0.4f;  // Same as R's final Y position
+float targetY_H = -0.4f;
+float targetY_R = -0.4f;
+
+// Plane animation variables
+float planeX = -2.5f;
+float targetXplane = 3.5f;
+
+/* plane 2 variables */
+float targetX2 = 3.0f;
+float targetY2 = 0.1f;
+float speed2 = 0.00050f;
+
+float plane2X = -3.0f;
+float plane2Y = 1.5f;
+
+int planePhase = 0;  // 0 = entry, 1 = straight, 2 = exit
+float exitStartX = 2.0f;  // Adjust this to set when plane2 starts going upward
+GLfloat straightSpeed = 0.00080f;
+
+BOOL colorB = FALSE;
+BOOL colorH = FALSE;
+BOOL colorA1 = FALSE;
+BOOL colorR = FALSE;
+BOOL colorA2 = FALSE;
+BOOL colorT = FALSE;
+
 // Entry point function
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdLine, int iCmdShow)
 {
@@ -338,7 +380,7 @@ int initialize(void)
 	glDepthFunc(GL_LEQUAL);
 	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
-	buildFont(); // build display lists
+	//buildFont(); // build display lists
 
 	// Tell opengl to chose the color to clear the screen
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -420,6 +462,7 @@ void drawFlippedCrescent(float cx, float cy, float outerRadius, float innerRadiu
 	glEnd();
 }
 
+/*
 void drawCharA() {
 	float w = 0.6f, h = 1.0f;
 
@@ -490,7 +533,101 @@ void drawCharA() {
 
 	glEnd();
 }
+*/
+void drawCharA(BOOL colored) {
+	float w = 0.6f, h = 1.0f;
 
+	glBegin(GL_QUADS);
+
+	// --- Top bar (small box on head of A) ---
+	float width = 0.1f;
+	float height = 0.05f;
+	float x_center = 0.3f;
+	float y_bottom = 0.95f;
+
+	// Top box
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 0.5f : 0.5f, colored ? 0.0f : 0.5f);  // orange or gray
+	glVertex2f(x_center - width / 2, y_bottom);
+	glVertex2f(x_center + width / 2, y_bottom);
+	glVertex2f(x_center + width / 2, y_bottom + height);
+	glVertex2f(x_center - width / 2, y_bottom + height);
+
+	// --- Left leg of A ---
+	// Bottom (green or gray)
+	glColor3f(colored ? 0.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 0.0f : 0.5f);
+	glVertex2f(0.0f, 0.0f);
+	glVertex2f(0.1f, 0.0f);
+
+	// Middle (white or gray)
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f);
+	glVertex2f(0.15f, 0.5f);
+	glVertex2f(0.05f, 0.5f);
+
+	glVertex2f(0.05f, 0.5f);
+	glVertex2f(0.15f, 0.5f);
+
+	// Top (orange or gray)
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 0.5f : 0.5f, colored ? 0.0f : 0.5f);
+	glVertex2f(0.25f, h);
+	glVertex2f(0.15f, h);
+
+	// --- Right leg of A ---
+	// Bottom (green or gray)
+	glColor3f(colored ? 0.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 0.0f : 0.5f);
+	glVertex2f(0.5f, 0.0f);
+	glVertex2f(0.6f, 0.0f);
+
+	// Middle (white or gray)
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f);
+	glVertex2f(0.55f, 0.5f);
+	glVertex2f(0.45f, 0.5f);
+
+	glVertex2f(0.45f, 0.5f);
+	glVertex2f(0.55f, 0.5f);
+
+	// Top (orange or gray)
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 0.5f : 0.5f, colored ? 0.0f : 0.5f);
+	glVertex2f(0.45f, h);
+	glVertex2f(0.35f, h);
+
+	// --- Cross bar of A ---
+	float cross_x_center = 0.3f;
+	float cross_y = 0.50f;
+	float cross_width = 0.3f;
+	float cross_height = 0.1f;
+
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f);
+	glVertex2f(cross_x_center - cross_width / 2, cross_y - cross_height / 2);
+	glVertex2f(cross_x_center + cross_width / 2, cross_y - cross_height / 2);
+	glVertex2f(cross_x_center + cross_width / 2, cross_y + cross_height / 2);
+	glVertex2f(cross_x_center - cross_width / 2, cross_y + cross_height / 2);
+
+	glEnd();
+}
+
+void drawCharT(BOOL colored) {
+	glBegin(GL_QUADS);
+
+	// Top bar
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 0.5f : 0.5f, colored ? 0.0f : 0.5f);
+	glVertex2f(0.0f, 1.0f);
+	glVertex2f(0.6f, 1.0f);
+	glVertex2f(0.6f, 0.9f);
+	glVertex2f(0.0f, 0.9f);
+
+	// Stem
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f); // White
+	glVertex2f(0.25f, 0.9f);
+	glVertex2f(0.35f, 0.9f);
+
+	glColor3f(colored ? 0.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 0.0f : 0.5f); // Green
+	glVertex2f(0.35f, 0.0f);
+	glVertex2f(0.25f, 0.0f);
+
+	glEnd();
+}
+
+/*
 void drawCharT() {
 	glBegin(GL_QUADS);
 
@@ -531,8 +668,9 @@ void drawCharT() {
 
 	glEnd();
 }
+*/ 
 
-
+/*
 void drawCharH() {
 	glBegin(GL_QUADS);
 
@@ -581,72 +719,135 @@ void drawCharH() {
 
 	glEnd();
 }
+*/
+void drawCharH(BOOL colored) {
+	glBegin(GL_QUADS);
+
+	// Left vertical bar
+	glColor3f(colored ? 0.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 0.0f : 0.5f); // Green
+	glVertex2f(0.0f, 0.0f);
+	glVertex2f(0.1f, 0.0f);
+
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f); // White
+	glVertex2f(0.1f, 0.5f);
+	glVertex2f(0.0f, 0.5f);
+
+	glVertex2f(0.0f, 0.5f);
+	glVertex2f(0.1f, 0.5f);
+
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 0.5f : 0.5f, colored ? 0.0f : 0.5f); // Orange
+	glVertex2f(0.1f, 1.0f);
+	glVertex2f(0.0f, 1.0f);
+
+	// Middle connector
+	glColor3f(colored ? 0.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 0.0f : 0.5f); // Green
+	glVertex2f(0.1f, 0.45f);
+	glVertex2f(0.5f, 0.45f);
+
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f); // White
+	glVertex2f(0.5f, 0.55f);
+	glVertex2f(0.1f, 0.55f);
+
+	// Right vertical bar
+	glColor3f(colored ? 0.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 0.0f : 0.5f); // Green
+	glVertex2f(0.5f, 0.0f);
+	glVertex2f(0.6f, 0.0f);
+
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f); // White
+	glVertex2f(0.6f, 0.5f);
+	glVertex2f(0.5f, 0.5f);
+
+	glVertex2f(0.5f, 0.5f);
+	glVertex2f(0.6f, 0.5f);
+
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 0.5f : 0.5f, colored ? 0.0f : 0.5f); // Orange
+	glVertex2f(0.6f, 1.0f);
+	glVertex2f(0.5f, 1.0f);
+
+	glEnd();
+}
 
 void drawCharB() {
 	glBegin(GL_QUADS);
 
 	// Top bar
-	glColor3f(1.0f, 0.5f, 0.0f); // Orange
+	if (colorB)
+		glColor3f(1.0f, 0.5f, 0.0f);  // Orange or your theme
+	else
+		glColor3f(0.5f, 0.5f, 0.5f);  // Gray
+
 	glVertex2f(0.0f, 0.90f);  // align with left vertical
 	glVertex2f(0.4f, 0.90f);
 	glVertex2f(0.4f, 1.0f);
 	glVertex2f(0.0f, 1.0f);   // align with left vertical
 
 	// Left vertical
-	glColor3f(1.0f, 0.5f, 0.0f); // Orange (top)
+	if (colorB) glColor3f(1.0f, 0.5f, 0.0f); // Orange (top)
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.0f, 1.0f);
 	glVertex2f(0.1f, 1.0f);
 
-	glColor3f(1.0f, 1.0f, 1.0f); // White (middle)
+	if (colorB) glColor3f(1.0f, 1.0f, 1.0f); // White (middle)
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.1f, 0.5f);
 	glVertex2f(0.0f, 0.5f);
 
 	// Bottom half: White to Green
-	glColor3f(1.0f, 1.0f, 1.0f); // White
+	if (colorB) glColor3f(1.0f, 1.0f, 1.0f); // White
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.0f, 0.5f);
 	glVertex2f(0.1f, 0.5f);
 
-	glColor3f(0.0f, 1.0f, 0.0f); // Green
+	if (colorB) glColor3f(0.0f, 1.0f, 0.0f); // Green
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.1f, 0.0f);
 	glVertex2f(0.0f, 0.0f);
 
 	// Middle bar (white)
-	glColor3f(1.0f, 1.0f, 1.0f);
+	if (colorB) glColor3f(1.0f, 1.0f, 1.0f);
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.1f, 0.45f);
 	glVertex2f(0.4f, 0.45f);
 	glVertex2f(0.4f, 0.55f);
 	glVertex2f(0.1f, 0.55f);
 
 	// Bottom bar: green to white
-	glColor3f(0.0f, 1.0f, 0.0f); // Green
+	if (colorB) glColor3f(0.0f, 1.0f, 0.0f); // Green
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.0f, 0.0f);
 	glVertex2f(0.4f, 0.0f);
 
-	glColor3f(1.0f, 1.0f, 1.0f); // White
+	if (colorB) glColor3f(1.0f, 1.0f, 1.0f); // White
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.4f, 0.1f);
 	glVertex2f(0.0f, 0.1f);
 
 	// Upper curve (orange to white)
-	glColor3f(1.0f, 0.5f, 0.0f); // Orange
+	if (colorB) glColor3f(1.0f, 0.5f, 0.0f); // Orange
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.4f, 0.9f);  // Top-left
 	glVertex2f(0.5f, 0.85f); // Top-right
 
-	glColor3f(1.0f, 1.0f, 1.0f); // White
+	if (colorB) glColor3f(1.0f, 1.0f, 1.0f); // White
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.5f, 0.6f);  // Bottom-right
 	glVertex2f(0.4f, 0.55f); // Bottom-left
 
 	// Lower curve (white to green)
-	glColor3f(1.0f, 1.0f, 1.0f); // White
+	if (colorB) glColor3f(1.0f, 1.0f, 1.0f); // White
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.4f, 0.5f);  // Top-left
 	glVertex2f(0.5f, 0.45f); // Top-right
 
-	glColor3f(0.0f, 1.0f, 0.0f); // Green
+	if (colorB) glColor3f(0.0f, 1.0f, 0.0f); // Green
+	else glColor3f(0.5f, 0.5f, 0.5f);  // Gray
 	glVertex2f(0.5f, 0.2f);  // Bottom-right
 	glVertex2f(0.4f, 0.1f);  // Bottom-left
 
 	glEnd();
 }
 
+/*
 void drawCharR() {
 	glBegin(GL_QUADS);
 
@@ -705,9 +906,64 @@ void drawCharR() {
 
 	glEnd();
 }
+*/
+void drawCharR(BOOL colored) {
+	glBegin(GL_QUADS);
+
+	// Left vertical bar (Orange → White → Green)
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 0.5f : 0.5f, colored ? 0.0f : 0.5f); // Orange
+	glVertex2f(0.0f, 1.0f);
+	glVertex2f(0.1f, 1.0f);
+
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f); // White
+	glVertex2f(0.1f, 0.5f);
+	glVertex2f(0.0f, 0.5f);
+
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f); // White
+	glVertex2f(0.0f, 0.5f);
+	glVertex2f(0.1f, 0.5f);
+
+	glColor3f(colored ? 0.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 0.0f : 0.5f); // Green
+	glVertex2f(0.1f, 0.0f);
+	glVertex2f(0.0f, 0.0f);
+
+	// Top horizontal bar
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 0.5f : 0.5f, colored ? 0.0f : 0.5f); // Orange
+	glVertex2f(0.1f, 1.0f);
+	glVertex2f(0.4f, 1.0f);
+	glVertex2f(0.4f, 0.90f);
+	glVertex2f(0.1f, 0.90f);
+
+	// Top curl
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 0.5f : 0.5f, colored ? 0.0f : 0.5f); // Orange
+	glVertex2f(0.4f, 0.90f);
+	glVertex2f(0.5f, 0.85f);
+
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f); // White
+	glVertex2f(0.5f, 0.6f);
+	glVertex2f(0.4f, 0.55f);
+
+	// Middle bar
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f); // White
+	glVertex2f(0.1f, 0.45f);
+	glVertex2f(0.40f, 0.45f);
+	glVertex2f(0.40f, 0.55f);
+	glVertex2f(0.1f, 0.55f);
+
+	// Diagonal leg
+	glColor3f(colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 1.0f : 0.5f); // White
+	glVertex2f(0.2f, 0.45f);
+	glVertex2f(0.3f, 0.45f);
+
+	glColor3f(colored ? 0.0f : 0.5f, colored ? 1.0f : 0.5f, colored ? 0.0f : 0.5f); // Green
+	glVertex2f(0.45f, 0.0f);
+	glVertex2f(0.35f, 0.0f);
+
+	glEnd();
+}
 
 
-
+/*
 void buildFont() {
 	base = glGenLists(128);
 	for (int i = 0; i < 128; i++) {
@@ -730,7 +986,7 @@ void buildFont() {
 		glTranslatef(0.7f, 0.0f, 0.0f); // advance after each char
 		glEndList();
 	}
-}
+}*/
 
 // Render string at position (x, y), scale, and color
 void renderText(float x, float y, float scale, const char* text, float r, float g, float b) {
@@ -743,24 +999,55 @@ void renderText(float x, float y, float scale, const char* text, float r, float 
 	glPopMatrix();
 }
 
-float posH_Y = 1.5f;   // Start above screen
-//float targetY_H = 0.0f;
-float posB_X = -2.0f;   // Start far left
-float targetX_B = -1.5f;  // Final X position (adjust according to your layout)
-float posA_Z = -10.0f;     // Start far back
-float targetZ_A = 0.0f;    // Final Z position
-float posT_X = 2.0f;       // Start from the right (off-screen)
-float targetX_T = 1.4f;    // Final position where 'T' should settle
-float posR_Y = -2.0f;      // Start from below
-//float targetY_R = -0.4f;   // Final resting Y position
+void drawPlane(void)
+{
+	glBegin(GL_TRIANGLES);
 
-float speed = 0.001f;   // Falling speed
-float speed_A = 0.01f;      // Speed of approach
+	// --- Nose (pointy tip) ---
+	glColor3f(0.8f, 0.8f, 0.8f);
+	glVertex3f(0.5f, 0.0f, 0.0f);   // Tip of the nose
+	glVertex3f(0.2f, 0.1f, 0.0f);
+	glVertex3f(0.2f, -0.1f, 0.0f);
 
-float baseY = -0.4f;  // Same as R's final Y position
-float targetY_H = -0.4f;
-float targetY_R = -0.4f;
+	// --- Main Body ---
+	glColor3f(0.3f, 0.3f, 0.3f);
+	glVertex3f(0.2f, 0.1f, 0.0f);
+	glVertex3f(-0.4f, 0.1f, 0.0f);
+	glVertex3f(-0.4f, -0.1f, 0.0f);
 
+	glVertex3f(0.2f, 0.1f, 0.0f);
+	glVertex3f(0.2f, -0.1f, 0.0f);
+	glVertex3f(-0.4f, -0.1f, 0.0f);
+
+	// --- Wings ---
+	glColor3f(0.5f, 0.5f, 0.5f);
+	glVertex3f(-0.1f, 0.1f, 0.0f);
+	glVertex3f(-0.4f, 0.3f, 0.0f);
+	glVertex3f(-0.4f, 0.1f, 0.0f);
+
+	glVertex3f(-0.1f, -0.1f, 0.0f);
+	glVertex3f(-0.4f, -0.3f, 0.0f);
+	glVertex3f(-0.4f, -0.1f, 0.0f);
+
+	// --- Tail fins ---
+	glColor3f(0.6f, 0.6f, 0.6f);
+	glVertex3f(-0.4f, 0.05f, 0.0f);
+	glVertex3f(-0.6f, 0.15f, 0.0f);
+	glVertex3f(-0.6f, 0.05f, 0.0f);
+
+	glVertex3f(-0.4f, -0.05f, 0.0f);
+	glVertex3f(-0.6f, -0.15f, 0.0f);
+	glVertex3f(-0.6f, -0.05f, 0.0f);
+
+	glEnd();
+
+
+}
+
+/* Plane 3 */
+float plane3X = -3.0f;
+float plane3Y = -1.5f;
+int plane3Phase = 0;  // 0 = entry, 1 = straight, 2 = exit
 
 void display(void)
 {
@@ -775,7 +1062,6 @@ void display(void)
 		0.0f, 0.0f, 0.0f,   // Look at point
 		0.0f, 1.0f, 0.0f);  // Up direction
 
-	//renderText(-1.5f, -0.4f, 0.8f, "BHARAT", 1.0f, 0.3f, 0.0f);  // Red text
  
 	// B from left
 	glPushMatrix();
@@ -786,33 +1072,53 @@ void display(void)
 	// H from top
 	glPushMatrix();
 	glTranslatef(-0.9f, posH_Y, 0.0f);
-	drawCharH();
+	drawCharH(colorH);
 	glPopMatrix();
 
 	// A from back (left A)
 	glPushMatrix();
 	glTranslatef(-0.25f, baseY, posA_Z);
-	drawCharA();
+	drawCharA(colorA1);   // For left A
 	glPopMatrix();
 
 	// R from bottom
 	glPushMatrix();
 	glTranslatef(0.4f, posR_Y, 0.0f);
-	drawCharR();
+	drawCharR(colorR);
 	glPopMatrix();
 
 	// A from back (right A)
 	glPushMatrix();
 	glTranslatef(0.9f, baseY, posA_Z);
-	drawCharA();
+	drawCharA(colorA2);   // For left A
 	glPopMatrix();
 
 	// T from right
 	glPushMatrix();
 	glTranslatef(posT_X, baseY, 0.0f);
-	drawCharT();
+	drawCharT(colorT);
 	glPopMatrix();
 
+	/* Plane 1 */
+	glPushMatrix();
+	glTranslatef(planeX, 0.07f, 1.0f);
+	glScalef(0.3f, 0.3f, 0.3f);  // Scale down to 50%
+	drawPlane();
+	glPopMatrix();
+
+	/* Plane 2 */
+	glPushMatrix();
+	glTranslatef(plane2X, plane2Y, 0.1f);
+	glScalef(0.35f, 0.35f, 0.35f);
+	drawPlane();
+	glPopMatrix();
+
+	/* Plane 3 */
+	glPushMatrix();
+	glTranslatef(plane3X, plane3Y, 0.1f);
+	glScalef(0.35f, 0.35f, 0.35f);
+	drawPlane();
+	glPopMatrix();
 
 	SwapBuffers(ghdc);
 
@@ -820,31 +1126,103 @@ void display(void)
 
 void update(void)
 {
-	// Code
+	/* plane 1 */
 	if (posH_Y > targetY_H) {
 		posH_Y -= speed;
 	}
 
-	// Animate B coming from left
 	if (posB_X < targetX_B) {
 		posB_X += speed;
 	}
 
-	// Animate A coming from back to front
 	if (posA_Z < targetZ_A) {
 		posA_Z += speed_A;
 	}
 
-	// Animate T from right
-	if (posT_X > targetX_T)
+	if (posT_X > targetX_T) {
 		posT_X -= speed;
+	}
 
-	// R from bottom
-	if (posR_Y < targetY_R)
+	if (posR_Y < targetY_R) {
 		posR_Y += speed;
+	}
 
+	if (planeX < targetXplane) {
+		planeX += speed;
+	}
+
+	/* plane 2 movement */
+	if (planePhase == 0) {
+		// Entry diagonal
+		if (plane2X < 0.0f) plane2X += speed;
+		if (plane2Y > 0.1f) plane2Y -= speed;
+
+		if (plane2X >= 0.0f && plane2Y <= 0.1f) {
+			plane2X = 0.0f;
+			plane2Y = 0.1f;
+			planePhase = 1;
+		} 
+	}
+	else if (planePhase == 1) {
+		// Move straight to the right
+		plane2X += straightSpeed;
+
+		// Trigger exit phase once x >= 2.0
+		if (plane2X >= 2.0f) {
+			planePhase = 2;
+		}
+	}
+	else if (planePhase == 2) {
+		// Move diagonally upward to top-right corner
+		if (plane2X < 4.0f) plane2X += speed;
+		if (plane2Y < 2.0f) plane2Y += speed;
+	}
+
+	if (plane2X >= -1.5f) colorB = TRUE;   // B at ~-1.5
+	if (plane2X >= -0.9f) colorH = TRUE;   // H at ~-0.9
+	if (plane2X >= -0.25f) colorA1 = TRUE; // A1 at ~-0.25
+	if (plane2X >= 0.4f) colorR = TRUE;    // R at ~0.4
+	if (plane2X >= 0.9f) colorA2 = TRUE;   // A2 at ~0.9
+	if (plane2X >= 1.4f) colorT = TRUE;    // T at ~1.4
+
+	// Clamp position so it doesn't overshoot
+	if (plane2X > 4.0f) plane2X = 4.0f;
+	if (plane2Y > 3.0f) plane2Y = 3.0f;
+
+
+	/* plane 3 movement (mirror of plane 2) */
+	if (plane3Phase == 0) {
+		// Entry diagonal from bottom-left
+		if (plane3X < 0.0f) plane3X += speed;
+		if (plane3Y < 0.1f) plane3Y += speed;
+
+		if (plane3X >= 0.0f && plane3Y >= -0.1f) {
+			plane3X = 0.0f;
+			plane3Y = 0.1f;
+			plane3Phase = 1;
+		}
+	}
+	else if (plane3Phase == 1) {
+		// Move straight to the right
+		plane3X += straightSpeed;
+
+		// Trigger exit phase once x >= 2.0
+		if (plane3X >= 2.0f) {
+			plane3Phase = 2;
+		}
+	}
+	else if (plane3Phase == 2) {
+		// Exit diagonally down-right
+		if (plane3X < 4.0f) plane3X += speed;
+		if (plane3Y > -2.0f) plane3Y -= speed;
+	}
+
+	// Clamp position
+	if (plane3X > 4.0f) plane3X = 4.0f;
+	if (plane3Y < -2.0f) plane3Y = -2.0f;
 
 }
+
 
 void uninitialize(void)
 {
