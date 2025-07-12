@@ -1,9 +1,0 @@
-Program started successfully
-OPENGL INFORMATION
-******************
-openGL vendor : Intel 
-openGL renderer : Intel(R) HD Graphics 620 
-openGL version : 4.6.0 - Build 31.0.101.2111 
-******************
-initialize() completed successfully
-Program terminated successfully
